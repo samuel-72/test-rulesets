@@ -1,5 +1,5 @@
 locals {
-  master_branch_ref = "refs/heads/master"
+  main_branch_ref = "refs/heads/main"
 }
 
 resource "github_repository" "this" {
@@ -18,17 +18,17 @@ resource "github_repository" "this" {
   }
 }
 
-resource "github_repository_ruleset" "master" {
-  count = var.enable_ruleset_master_protection ? 1 : 0
+resource "github_repository_ruleset" "main" {
+  count = var.enable_ruleset_main_protection ? 1 : 0
 
-  name        = "${var.name}-master-branch-protection"
+  name        = "${var.name}-main-branch-protection"
   repository  = github_repository.this.name
   target      = "branch"
-  enforcement = var.master_ruleset_enforcement
+  enforcement = var.main_ruleset_enforcement
 
   conditions {
     ref_name {
-      include = [local.master_branch_ref]
+      include = [local.main_branch_ref]
       exclude = []
     }
   }

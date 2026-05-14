@@ -7,13 +7,13 @@ Terraform configuration for managing the branch protection behavior of `samuel-7
 
 ### What This Applies
 
-This configuration mirrors the module-style PR in the screenshot: the root config calls `modules/repo`, and that module manages the repository plus a `github_repository_ruleset` for `refs/heads/master`.
+This configuration mirrors the module-style PR in the screenshot: the root config calls `modules/repo`, and that module manages the repository plus a `github_repository_ruleset` for `refs/heads/main`.
 
 The ruleset mirrors the screenshot as closely as GitHub rulesets allow:
 
 - Require pull requests before merging.
 - Require 1 approving review.
-- Require the `policy-bot: master` status check.
+- Do not require status checks, because this repository does not currently publish a stable required check context.
 - Do not require stale review dismissal, code owner review, last-push approval, conversation resolution, signed commits, linear history, merge queue, or deployments.
 - Do not allow branch deletion.
 - Do not allow force pushes.
@@ -33,4 +33,4 @@ terraform plan
 terraform apply
 ```
 
-The repository currently uses `main`; this intentionally targets `master` to match the screenshot.
+The repository default branch is `main`, so the ruleset targets `refs/heads/main`.

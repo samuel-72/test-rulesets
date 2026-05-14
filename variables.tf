@@ -27,20 +27,20 @@ variable "repository_visibility" {
   }
 }
 
-variable "enable_ruleset_master_protection" {
-  description = "Set to true to create a github_repository_ruleset that mirrors the classic master branch protection."
+variable "enable_ruleset_main_protection" {
+  description = "Set to true to create a github_repository_ruleset that mirrors the classic main branch protection."
   type        = bool
   default     = true
 }
 
-variable "master_ruleset_enforcement" {
-  description = "Enforcement mode for the master ruleset. GitHub only supports evaluate on Enterprise plans; use active to enforce or disabled to turn it off."
+variable "main_ruleset_enforcement" {
+  description = "Enforcement mode for the main ruleset. GitHub only supports evaluate on Enterprise plans; use active to enforce or disabled to turn it off."
   type        = string
   default     = "active"
 
   validation {
-    condition     = contains(["active", "evaluate", "disabled"], var.master_ruleset_enforcement)
-    error_message = "master_ruleset_enforcement must be active, evaluate, or disabled."
+    condition     = contains(["active", "evaluate", "disabled"], var.main_ruleset_enforcement)
+    error_message = "main_ruleset_enforcement must be active, evaluate, or disabled."
   }
 }
 
@@ -80,9 +80,9 @@ variable "required_review_thread_resolution" {
 }
 
 variable "required_status_checks" {
-  description = "Status check contexts required before merging to master."
+  description = "Status check contexts required before merging to main."
   type        = set(string)
-  default     = ["policy-bot: master"]
+  default     = []
 }
 
 variable "strict_required_status_checks" {
