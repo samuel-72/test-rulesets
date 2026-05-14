@@ -82,7 +82,7 @@ variable "required_review_thread_resolution" {
 variable "required_status_checks" {
   description = "Status check contexts required before merging to master."
   type        = set(string)
-  default     = ["policy-bot: master"]
+  default     = []
 }
 
 variable "strict_required_status_checks" {

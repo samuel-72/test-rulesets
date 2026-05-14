@@ -13,7 +13,7 @@ The ruleset mirrors the screenshot as closely as GitHub rulesets allow:
 
 - Require pull requests before merging.
 - Require 1 approving review.
-- Require the `policy-bot: master` status check.
+- Do not require status checks, because this repository does not currently publish a stable required check context.
 - Do not require stale review dismissal, code owner review, last-push approval, conversation resolution, signed commits, linear history, merge queue, or deployments.
 - Do not allow branch deletion.
 - Do not allow force pushes.
