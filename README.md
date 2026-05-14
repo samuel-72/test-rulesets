@@ -1,2 +1,36 @@
 # test-rulesets
 A repo to test rulesets
+
+## GitHub Ruleset Terraform
+
+Terraform configuration for managing the branch protection behavior of `samuel-72/test-rulesets` with a repository ruleset.
+
+### What This Applies
+
+This configuration mirrors the module-style PR in the screenshot: the root config calls `modules/repo`, and that module manages the repository plus a `github_repository_ruleset` for `refs/heads/master`.
+
+The ruleset mirrors the screenshot as closely as GitHub rulesets allow:
+
+- Require pull requests before merging.
+- Require 1 approving review.
+- Require the `policy-bot: master` status check.
+- Do not require stale review dismissal, code owner review, last-push approval, conversation resolution, signed commits, linear history, merge queue, or deployments.
+- Do not allow branch deletion.
+- Do not allow force pushes.
+- Use `active` enforcement because GitHub only supports `evaluate` mode on Enterprise plans.
+
+The old branch protection UI has a "Restrict who can push to matching branches" allow-list that is not a perfect one-to-one match in repository rulesets. The screenshot's ruleset-style PR does not add an update restriction or bypass actors, so this Terraform follows that pattern to avoid turning normal protected-branch merges into bypass-only operations.
+
+### Usage
+
+Create a token with permission to administer the repository, then run:
+
+```sh
+export GITHUB_TOKEN="..."
+cp terraform.tfvars.example terraform.tfvars
+terraform init
+terraform plan
+terraform apply
+```
+
+The repository currently uses `main`; this intentionally targets `master` to match the screenshot.
