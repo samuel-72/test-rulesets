@@ -5,8 +5,8 @@ module "test_rulesets" {
   description = var.repository_description
   visibility  = var.repository_visibility
 
-  enable_ruleset_master_protection = var.enable_ruleset_master_protection
-  master_ruleset_enforcement       = var.master_ruleset_enforcement
+  enable_ruleset_main_protection = var.enable_ruleset_main_protection
+  main_ruleset_enforcement       = var.main_ruleset_enforcement
 
   dismiss_stale_reviews             = var.dismiss_stale_reviews
   require_code_owner_review         = var.require_code_owner_review

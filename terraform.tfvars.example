@@ -1,8 +1,8 @@
 github_owner    = "samuel-72"
 repository_name = "test-rulesets"
 
-enable_ruleset_master_protection = true
-master_ruleset_enforcement       = "active"
+enable_ruleset_main_protection = true
+main_ruleset_enforcement       = "active"
 
 dismiss_stale_reviews             = false
 require_code_owner_review         = false
