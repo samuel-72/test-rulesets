@@ -8,6 +8,11 @@ module "test_rulesets" {
   enable_ruleset_main_protection = var.enable_ruleset_main_protection
   main_ruleset_enforcement       = var.main_ruleset_enforcement
 
+  enable_ruleset_feature_protection = var.enable_ruleset_feature_protection
+  feature_ruleset_enforcement       = var.feature_ruleset_enforcement
+  feature_branch_include_patterns   = var.feature_branch_include_patterns
+  feature_allow_force_pushes        = var.feature_allow_force_pushes
+
   dismiss_stale_reviews             = var.dismiss_stale_reviews
   require_code_owner_review         = var.require_code_owner_review
   require_last_push_approval        = var.require_last_push_approval

@@ -4,6 +4,11 @@ repository_name = "test-rulesets"
 enable_ruleset_main_protection = true
 main_ruleset_enforcement       = "active"
 
+enable_ruleset_feature_protection = true
+feature_ruleset_enforcement       = "active"
+feature_branch_include_patterns   = ["refs/heads/feature*"]
+feature_allow_force_pushes        = true
+
 dismiss_stale_reviews             = false
 require_code_owner_review         = false
 require_last_push_approval        = false
