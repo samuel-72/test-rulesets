@@ -44,6 +44,43 @@ variable "main_ruleset_enforcement" {
   }
 }
 
+variable "enable_ruleset_feature_protection" {
+  description = "Set to true to create a github_repository_ruleset for branches whose names start with feature."
+  type        = bool
+  default     = true
+}
+
+variable "feature_ruleset_enforcement" {
+  description = "Enforcement mode for the feature branch ruleset. GitHub only supports evaluate on Enterprise plans; use active to enforce or disabled to turn it off."
+  type        = string
+  default     = "active"
+
+  validation {
+    condition     = contains(["active", "evaluate", "disabled"], var.feature_ruleset_enforcement)
+    error_message = "feature_ruleset_enforcement must be active, evaluate, or disabled."
+  }
+}
+
+variable "feature_branch_include_patterns" {
+  description = "GitHub ref patterns for feature branches protected by the feature ruleset."
+  type        = list(string)
+  default     = ["refs/heads/feature*", "refs/heads/feature/*"]
+
+  validation {
+    condition = alltrue([
+      for pattern in var.feature_branch_include_patterns :
+      startswith(pattern, "refs/heads/")
+    ])
+    error_message = "feature_branch_include_patterns entries must be full refs like refs/heads/feature* or refs/heads/feature/*."
+  }
+}
+
+variable "feature_allow_force_pushes" {
+  description = "When true, do not add the non-fast-forward rule for feature branches so force pushes are allowed."
+  type        = bool
+  default     = true
+}
+
 variable "dismiss_stale_reviews" {
   description = "Dismiss approving pull request reviews when new commits are pushed."
   type        = bool

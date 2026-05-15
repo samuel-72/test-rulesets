@@ -256,35 +256,90 @@ git push origin --delete main
 
 Expected result: GitHub rejects deletion of `main`.
 
-## Scenario 17: Other Branches Are Not Affected
+## Scenario 17: Feature Branch Direct Push Is Allowed
 
-Goal: Verify the ruleset only targets `main`.
+Goal: Verify feature branches can receive normal developer pushes.
 
 Steps:
 
-1. Create a non-main branch.
+1. Create a branch whose name starts with `feature`.
+2. Commit and push directly to that branch.
+
+```sh
+git checkout -B feature/direct-push-test origin/main
+printf "\nFeature direct push test\n" >> feature-direct-push-test.txt
+git add feature-direct-push-test.txt
+git commit -m "Test feature direct push"
+git push -u origin feature/direct-push-test
+```
+
+Expected result: The direct push succeeds because feature branches are allowed to receive normal pushes.
+
+## Scenario 18: Feature Branch Force-With-Lease Is Allowed
+
+Goal: Verify feature branches can be rebased and pushed with `--force-with-lease`.
+
+Steps:
+
+1. Use the branch from Scenario 17.
+2. Rewrite the last local commit.
+3. Force-push with lease.
+
+```sh
+git checkout feature/direct-push-test
+git commit --amend -m "Test feature direct push amended"
+git push --force-with-lease origin feature/direct-push-test
+```
+
+Expected result: The force-with-lease push succeeds.
+
+Note: GitHub rulesets cannot distinguish `--force-with-lease` from plain `--force`. The ruleset allows non-fast-forward updates on feature branches; using `--force-with-lease` is the safe client-side workflow.
+
+## Scenario 19: Feature Branch Deletion Is Blocked
+
+Goal: Verify feature branches cannot be deleted.
+
+Steps:
+
+```sh
+git push origin --delete feature/direct-push-test
+```
+
+Expected result: GitHub rejects deletion of the feature branch.
+
+Note: The Terraform includes both `refs/heads/feature*` and `refs/heads/feature/*`. GitHub's `*` wildcard does not cross `/`, so `feature/delete-test` needs the slash-specific pattern.
+
+Cleanup: Delete the remote feature branch after temporarily disabling the feature ruleset, or keep it as a test branch.
+
+## Scenario 20: Non-Feature Branches Are Not Affected
+
+Goal: Verify branches outside `main` and `feature*` are unaffected.
+
+Steps:
+
+1. Create a branch that does not match `feature*`.
 2. Push directly to that branch.
 3. Delete that branch.
 
 ```sh
-git checkout -B ruleset-unprotected-branch-test
+git checkout -B sandbox/unprotected-branch-test origin/main
 printf "\nUnprotected branch test\n" >> unprotected-branch-test.txt
 git add unprotected-branch-test.txt
 git commit -m "Test unprotected branch behavior"
-git push origin ruleset-unprotected-branch-test
-git push origin --delete ruleset-unprotected-branch-test
+git push origin sandbox/unprotected-branch-test
+git push origin --delete sandbox/unprotected-branch-test
 ```
 
-Expected result: Direct push and deletion succeed because the ruleset only targets `refs/heads/main`.
+Expected result: Direct push and deletion succeed because the branch does not match `refs/heads/main`, `refs/heads/feature*`, or `refs/heads/feature/*`.
 
 Cleanup:
 
 ```sh
 git checkout main
-git branch -D ruleset-unprotected-branch-test
+git branch -D sandbox/unprotected-branch-test
 ```
 
-## Scenario 18: Terraform Drift Check
+## Scenario 21: Terraform Drift Check
 
 Goal: Verify the UI ruleset still matches Terraform.
 

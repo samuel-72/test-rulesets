@@ -17,3 +17,18 @@ output "main_ruleset_url" {
   description = "GitHub web URL for the main ruleset."
   value       = try("https://github.com/${github_repository.this.full_name}/rules/${github_repository_ruleset.main[0].ruleset_id}", null)
 }
+
+output "feature_ruleset_refs" {
+  description = "Refs protected by the feature branch ruleset."
+  value       = var.feature_branch_include_patterns
+}
+
+output "feature_ruleset_id" {
+  description = "GitHub ruleset ID for the feature branch ruleset."
+  value       = try(github_repository_ruleset.feature[0].ruleset_id, null)
+}
+
+output "feature_ruleset_url" {
+  description = "GitHub web URL for the feature branch ruleset."
+  value       = try("https://github.com/${github_repository.this.full_name}/rules/${github_repository_ruleset.feature[0].ruleset_id}", null)
+}

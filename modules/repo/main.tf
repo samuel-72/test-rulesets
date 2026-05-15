@@ -66,3 +66,28 @@ resource "github_repository_ruleset" "main" {
     github_repository.this,
   ]
 }
+
+resource "github_repository_ruleset" "feature" {
+  count = var.enable_ruleset_feature_protection ? 1 : 0
+
+  name        = "${var.name}-feature-branch-protection"
+  repository  = github_repository.this.name
+  target      = "branch"
+  enforcement = var.feature_ruleset_enforcement
+
+  conditions {
+    ref_name {
+      include = var.feature_branch_include_patterns
+      exclude = []
+    }
+  }
+
+  rules {
+    deletion         = true
+    non_fast_forward = !var.feature_allow_force_pushes
+  }
+
+  depends_on = [
+    github_repository.this,
+  ]
+}
