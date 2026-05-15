@@ -307,6 +307,8 @@ git push origin --delete feature/direct-push-test
 
 Expected result: GitHub rejects deletion of the feature branch.
 
+Note: The Terraform includes both `refs/heads/feature*` and `refs/heads/feature/*`. GitHub's `*` wildcard does not cross `/`, so `feature/delete-test` needs the slash-specific pattern.
+
 Cleanup: Delete the remote feature branch after temporarily disabling the feature ruleset, or keep it as a test branch.
 
 ## Scenario 20: Non-Feature Branches Are Not Affected
@@ -328,7 +330,7 @@ git push origin sandbox/unprotected-branch-test
 git push origin --delete sandbox/unprotected-branch-test
 ```
 
-Expected result: Direct push and deletion succeed because the branch does not match `refs/heads/main` or `refs/heads/feature*`.
+Expected result: Direct push and deletion succeed because the branch does not match `refs/heads/main`, `refs/heads/feature*`, or `refs/heads/feature/*`.
 
 Cleanup:
 

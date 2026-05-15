@@ -64,14 +64,14 @@ variable "feature_ruleset_enforcement" {
 variable "feature_branch_include_patterns" {
   description = "GitHub ref patterns for feature branches protected by the feature ruleset."
   type        = list(string)
-  default     = ["refs/heads/feature*"]
+  default     = ["refs/heads/feature*", "refs/heads/feature/*"]
 
   validation {
     condition = alltrue([
       for pattern in var.feature_branch_include_patterns :
       startswith(pattern, "refs/heads/")
     ])
-    error_message = "feature_branch_include_patterns entries must be full refs like refs/heads/feature*."
+    error_message = "feature_branch_include_patterns entries must be full refs like refs/heads/feature* or refs/heads/feature/*."
   }
 }
 

@@ -6,7 +6,7 @@ main_ruleset_enforcement       = "active"
 
 enable_ruleset_feature_protection = true
 feature_ruleset_enforcement       = "active"
-feature_branch_include_patterns   = ["refs/heads/feature*"]
+feature_branch_include_patterns   = ["refs/heads/feature*", "refs/heads/feature/*"]
 feature_allow_force_pushes        = true
 
 dismiss_stale_reviews             = false
